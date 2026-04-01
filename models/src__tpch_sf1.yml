@@ -14,6 +14,49 @@ sources:
         - lineitems
 
     tables:
+
+      - name: part
+        description: >
+          One record per part. Parts are unique on partkey and match up to the lineitem table
+        columns:
+          - name: p_partkey
+            data_type: string 
+            data_tests: 
+              - not_null
+              - unique
+              - relationships:
+                  arguments: 
+                    to: source('snowflake_sample_shop','lineitem')
+                    field: l_partkey
+          - name: p_name 
+            data_type: string
+            data_tests:
+              - not_null
+          - name: p_mfgr
+            data_type: string 
+            data_tests:
+              - not_null 
+
+          - name: p_brand
+            data_type: string 
+            
+          - name: p_type
+            data_type: string 
+
+          - name: p_size
+            data_type: int 
+
+          - name: p_container
+            data_type: string 
+
+          - name: p_retailprice
+            data_type: float 
+            data_tests:
+              - non_negative #custom @ test/generic/not_negative.sql
+          - name: p_comment
+            data_type: text
+            
+          
       - name: customer
         description: >
           One record per customer. Customers **may or may not** have associated orders.
@@ -34,7 +77,8 @@ sources:
             data_tests:
               - not_null
               - accepted_values:
-                  values: ['HOUSEHOLD', 'BUILDING', 'FURNITURE', 'MACHINERY', 'AUTOMOBILE']
+                  arguments: 
+                    values: ['HOUSEHOLD', 'BUILDING', 'FURNITURE', 'MACHINERY', 'AUTOMOBILE']
 
           - name: c_address
             data_type: string
@@ -71,8 +115,9 @@ sources:
             data_type: int
             data_tests:
               - relationships:
-                  to: source('snowflake_sample_shop', 'customer') # customer source table
-                  field: c_custkey    # foreign key to match on
+                  arguments: 
+                    to: source('snowflake_sample_shop', 'customer') # customer source table
+                    field: c_custkey    # foreign key to match on
 
           - name: o_orderstatus
             data_type: string
@@ -91,7 +136,8 @@ sources:
             data_type: string
             data_tests:
               - accepted_values:
-                  values: ['1-URGENT', '2-HIGH', '3-MEDIUM', '4-NOT SPECIFIED', '5-LOW']
+                  arguments: 
+                    values: ['1-URGENT', '2-HIGH', '3-MEDIUM', '4-NOT SPECIFIED', '5-LOW']
 
           - name: o_shippriority
             data_type: int
@@ -107,8 +153,9 @@ sources:
             data_type: int
             data_tests:
               - relationships:
-                  to: source('snowflake_sample_shop', 'orders') # orders source table
-                  field: o_orderkey # foreign key to match on
+                  arguments: 
+                    to: source('snowflake_sample_shop', 'orders') # orders source table
+                    field: o_orderkey # foreign key to match on
 
           - name: l_partkey
             data_type: int

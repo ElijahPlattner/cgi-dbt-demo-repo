@@ -51,6 +51,9 @@ models:
         data_tests:
           - unique
           - not_null
+      
+      - name: avg_part_size
+        data_type: float
 
       - name: total_line_amount
         data_type: string
