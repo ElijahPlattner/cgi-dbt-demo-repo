@@ -10,6 +10,10 @@ lineitem as (
 
 ),
 
+part as (
+    select * from {{ ref('stg__part')}}
+),
+
 -- set bound variables
 {% set lower_amount = 15000 %}
 {% set upper_amount = 50000 %}
@@ -21,6 +25,7 @@ order_items as (
         orders.status,
         orders.priority_int,
         sum(lineitem.extended_price) as total_line_amount,
+        avg(part.size) avg_part_size,
         count(case when lineitem.extended_price < {{ lower_amount }} then quantity end) as low_cost_items,
         count(case when lineitem.extended_price between {{ lower_amount }} and {{ upper_amount }} then quantity end) as mid_cost_items,
         count(case when lineitem.extended_price > {{ upper_amount }} then quantity end) as high_cost_items
@@ -28,6 +33,8 @@ order_items as (
         orders
     join
         lineitem using (order_id)
+    join part
+        on lineitem.part_id = part.part_id
     group by
         orders.order_id,
         orders.status,

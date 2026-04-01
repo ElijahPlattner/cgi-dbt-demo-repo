@@ -31,6 +31,10 @@ models:
         data_tests:
           - non_negative # CUSTOM TEST
 
+      - name: avg_part_size
+        data_type: float 
+        data_tests:
+          - non_negative
       - name: low_cost_items
         data_type: int
         data_tests:

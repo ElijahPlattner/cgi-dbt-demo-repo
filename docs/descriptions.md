@@ -4,6 +4,10 @@
 Unique identifier for customer
 {% enddocs %}
 
+{% docs part_id %}
+Unique identifier for each part
+{% enddocs %}
+
 {% docs order_id %}
 Unique identifier for order.
 Orders may have the following priorities:

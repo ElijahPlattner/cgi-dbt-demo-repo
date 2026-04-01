@@ -1,6 +1,34 @@
 version: 2
 
 models:
+
+  - name: stg__part
+    description: >
+      Cleansed part data. Materialized as table for increased downstream performance.
+    columns:
+      - name: part_id # unique key
+        description: "{{ doc('part_id') }}"
+        data_type: string
+        data_tests:
+          - unique
+          - not_null
+
+      - name: name
+        data_type: string
+        description: "This is the name of the part." 
+        
+      - name: brand
+        data_type: string
+
+      - name: comment
+        data_type: string
+        
+      - name: size
+        data_type: number
+        
+      - name: retail_price
+        data_type: float
+
   - name: stg__orders
     description: >
       Cleansed order data. Materialized as table for increased downstream performance.
