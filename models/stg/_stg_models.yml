@@ -20,20 +20,23 @@ models:
         description: "{{ doc('customer_id') }}" # description defined in docs block (at: /docs/descriptions.md)
         data_tests:
           - relationships:
-              to: ref('stg__customer') # customer source table
-              field: customer_id   # foreign key to match on
+              arguments: 
+                to: ref('stg__customer') # customer source table
+                field: customer_id   # foreign key to match on
 
       - name: priority_int
         data_type: int
         data_tests:
           - accepted_values:
-              values: [1, 2, 3, 4, 5]
+              arguments: 
+                values: [1, 2, 3, 4, 5]
 
       - name: priority_str
         data_type: string
         data_tests:
           - accepted_values:
-              values: ['URGENT', 'HIGH', 'MEDIUM', 'NOT SPECIFIED', 'LOW']
+              arguments: 
+                values: ['URGENT', 'HIGH', 'MEDIUM', 'NOT SPECIFIED', 'LOW']
 
       - name: total_price
         data_type: number
